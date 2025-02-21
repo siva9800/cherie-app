@@ -1,0 +1,46 @@
+replicaCount: 2
+
+image:
+  repository: your-username/cherie-backend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  hosts:
+    - host: backend.example.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+env:
+  DB_HOST: postgres-service
+  DB_PORT: 5432
+  REDIS_HOST: redis-service
+  REDIS_PORT: 6379
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 256Mi
+  requests:
+    cpu: 250m
+    memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+service:
+  type: ClusterIP
+  port: 5000
+
+serviceAccount:
+  create: true
+  name: backend-sa
