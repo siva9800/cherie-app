@@ -1,0 +1,5 @@
+# Chart.yaml
+apiVersion: v2
+name: frontend
+version: 1.0.0
+description: A Helm chart for Cherie Frontend Service
