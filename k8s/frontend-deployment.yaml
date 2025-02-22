@@ -1,23 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-deployment
+  name: cherie-frontend
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: frontend
+      app: cherie-frontend
   template:
     metadata:
       labels:
-        app: frontend
+        app: cherie-frontend
     spec:
       containers:
       - name: frontend
-        image: your-username/cherie-frontend:latest
+        image: your-registry/cherie-frontend:latest
         ports:
         - containerPort: 80
         resources:
           limits:
-            memory: "64Mi"
-            cpu: "50m"
+            memory: "256Mi"
+            cpu: "100m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cherie-frontend
+spec:
+  selector:
+    app: cherie-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
